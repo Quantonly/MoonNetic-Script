@@ -1,9 +1,10 @@
 #!/bin/sh
+
 #Start SSH connection
-sshpass -p abc123! ssh admin05@$1 << EOF
+sshpass -p "abc123!" ssh -o StrictHostKeyChecking=no admin05@$1 << EOF
 
 #Create user
-sudo -S useradd $3
+sudo -S useradd --shell /bin/false $3
 abc123!
 sudo passwd $3
 $4
@@ -14,6 +15,8 @@ sudo mkdir /home/$2
 sudo mkdir /home/$2/$2
 sudo mkdir /home/$2/$2/public
 sudo cp /home/index.html /home/$2/$2/public/index.html
+sudo chown root:root /home/$2
+sudo chmod 755 /home/$2
 sudo chown -R $3:$3 /home/$2/$2
 sudo chmod -R 777 /home/$2/$2
 sudo ln -s /home/$2/$2 /var/www/$2
@@ -46,11 +49,11 @@ sudo systemctl restart ssh
 
 #PhpMyAdmin
 sudo mysql
-CREATE USER '$3'@'%' IDENTIFIED WITH caching_sha2_password BY '$4';
-GRANT USAGE ON *.* TO '$3'@'%';
-ALTER USER '$3'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
-CREATE DATABASE IF NOT EXISTS $3;
-GRANT ALL PRIVILEGES ON $3.* TO '$3'@'%';
+CREATE USER '$5'@'%' IDENTIFIED WITH caching_sha2_password BY '$6';
+GRANT USAGE ON *.* TO '$5'@'%';
+ALTER USER '$5'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+CREATE DATABASE IF NOT EXISTS $5;
+GRANT ALL PRIVILEGES ON $5.* TO '$5'@'%';
 exit
 
 #End SSH connection
