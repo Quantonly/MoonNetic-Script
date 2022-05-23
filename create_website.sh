@@ -3,16 +3,19 @@
 sshpass -p abc123! ssh admin05@$1 << EOF
 
 #Create user
-
+sudo -S useradd $3
+abc123!
+sudo passwd $3
+$4
+$4
 
 #Structure
-sudo -S mkdir /home/$2
-abc123!
+sudo mkdir /home/$2
 sudo mkdir /home/$2/$2
 sudo mkdir /home/$2/$2/public
 sudo cp /home/index.html /home/$2/$2/public/index.html
-#sudo chown -R $3:$3 /home/$2/$2
-#sudo chmod -R 777 /home/$2/$2
+sudo chown -R $3:$3 /home/$2/$2
+sudo chmod -R 700 /home/$2/$2
 sudo ln -s /home/$2/$2 /var/www/$2
 
 #Virtual Host
@@ -24,12 +27,22 @@ sudo echo "     ServerName $2.moonnetic.com" >> /etc/apache2/sites-available/$2.
 sudo echo "     ServerAlias www.$2.moonnetic.com" >> /etc/apache2/sites-available/$2.moonnetic.com.conf
 sudo echo "     DocumentRoot /var/www/$2/public" >> /etc/apache2/sites-available/$2.moonnetic.com.conf
 sudo echo "     ErrorLog ${APACHE_LOG_DIR}/error.log" >> /etc/apache2/sites-available/$2.moonnetic.com.conf
-sudo echo "     CustomLog ${APACHE_LOG_DIR}/access.log combined" >> /etc/apache2/sites-available/$2.moonnetic.com.co>
+sudo echo "     CustomLog ${APACHE_LOG_DIR}/access.log combined" >> /etc/apache2/sites-available/$2.moonnetic.com.com
 sudo echo "</VirtualHost>" >> /etc/apache2/sites-available/$2.moonnetic.com.conf
 sudo a2ensite $2.moonnetic.com.conf
 sudo systemctl restart apache2
 
 #SFTP
+sudo chmod 777 /etc/ssh/sshd_config
+sudo echo "Match User $3" >> /etc/ssh/sshd_config
+sudo echo "     ForceCommand internal-sftp" >> /etc/ssh/sshd_config
+sudo echo "     PasswordAuthentication yes" >> /etc/ssh/sshd_config
+sudo echo "     ChrootDirectory /home/$2" >> /etc/ssh/sshd_config
+sudo echo "     PermitTunnel no" >> /etc/ssh/sshd_config
+sudo echo "     AllowAgentForwarding no" >> /etc/ssh/sshd_config
+sudo echo "     AllowTcpForwarding no" >> /etc/ssh/sshd_config
+sudo echo "     X11Forwarding no" >> /etc/ssh/sshd_config
+sudo systemctl restart ssh
 
 #PhpMyAdmin
 sudo mysql
