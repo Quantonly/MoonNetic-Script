@@ -15,7 +15,7 @@ sudo mkdir /home/$2/$2
 sudo mkdir /home/$2/$2/public
 sudo cp /home/index.html /home/$2/$2/public/index.html
 sudo chown -R $3:$3 /home/$2/$2
-sudo chmod -R 700 /home/$2/$2
+sudo chmod -R 777 /home/$2/$2
 sudo ln -s /home/$2/$2 /var/www/$2
 
 #Virtual Host
