@@ -9,6 +9,8 @@ abc123!
 sudo passwd $3
 $4
 $4
+sudo groupadd $3
+sudo usermod -a -G $3 smbuser
 
 #Structure
 sudo mkdir /home/$2
@@ -30,7 +32,7 @@ sudo echo '     ServerName $2.moonnetic.com' >> /etc/apache2/sites-available/$2.
 sudo echo '     ServerAlias www.$2.moonnetic.com' >> /etc/apache2/sites-available/$2.moonnetic.com.conf
 sudo echo '     DocumentRoot /var/www/$2/public' >> /etc/apache2/sites-available/$2.moonnetic.com.conf
 sudo echo '     ErrorLog \${APACHE_LOG_DIR}/error.log' >> /etc/apache2/sites-available/$2.moonnetic.com.conf
-sudo echo '     CustomLog \${APACHE_LOG_DIR}/access.log combined' >> /etc/apache2/sites-available/$2.moonnetic.com.com
+sudo echo '     CustomLog \${APACHE_LOG_DIR}/access.log combined' >> /etc/apache2/sites-available/$2.moonnetic.com.c>
 sudo echo '</VirtualHost>' >> /etc/apache2/sites-available/$2.moonnetic.com.conf
 sudo a2ensite $2.moonnetic.com.conf
 sudo systemctl restart apache2
@@ -51,7 +53,7 @@ sudo systemctl restart ssh
 sudo mysql
 CREATE USER '$5'@'%' IDENTIFIED WITH caching_sha2_password BY '$6';
 GRANT USAGE ON *.* TO '$5'@'%';
-ALTER USER '$5'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+ALTER USER '$5'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_U>
 CREATE DATABASE IF NOT EXISTS $5;
 GRANT ALL PRIVILEGES ON $5.* TO '$5'@'%';
 exit
